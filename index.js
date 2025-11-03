@@ -61,6 +61,21 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 });
+// --- en haut du fichier
+import Stripe from 'stripe';
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' });
+
+// --- juste après tes routes
+app.get('/price', async (_req, res) => {
+  try {
+    const price = await stripe.prices.retrieve(process.env.STRIPE_PRICE_ID);
+    // price.unit_amount = montant en CENTIMES
+    res.json({ amount: price.unit_amount, currency: price.currency }); 
+  } catch (e) {
+    res.status(500).json({ error: 'Unable to retrieve price' });
+  }
+});
+
 
 app.get('/', (_, res) => res.send('ParrainSport Stripe server OK'));
 app.listen(port, () => console.log(`Listening on :${port}`));
