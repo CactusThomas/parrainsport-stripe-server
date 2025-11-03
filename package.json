@@ -1,0 +1,11 @@
+{
+  "name": "parrainsport-stripe-server",
+  "type": "module",
+  "scripts": { "start": "node index.js" },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "stripe": "^14.0.0"
+  }
+}
